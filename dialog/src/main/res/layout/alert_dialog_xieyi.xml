@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"
+    android:background="@color/color_transparent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="375dp"
+        android:background="@drawable/shape_radian_dialog_white"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/alert_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp"
+                android:text="协议"
+                android:textColor="#525b6c"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/alert_iv_finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@mipmap/ic_calculator_close"
+                android:padding="3dp" />
+        </RelativeLayout>
+
+        <WebView
+            android:id="@+id/alert_wv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            tools:ignore="WebViewLayout" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="25dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/alert_cb"
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:button="@drawable/checkbox_agree" />
+
+            <TextView
+                android:id="@+id/alert_tv_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="我已阅读并同意以上条款，下次不再提示"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/alert_btn"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/selector_common_btn"
+            android:enabled="false"
+            android:text="我知道了"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
+    </LinearLayout>
+</RelativeLayout>

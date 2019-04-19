@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--可以点击-->
+    <item android:drawable="@drawable/shape_common_btn_blue" android:state_pressed="true" />
+    <!--不可点-->
+    <item android:drawable="@drawable/shape_common_btn_grey" android:state_enabled="false" />
+    <!-- 默认时的背景图片-->
+    <item android:drawable="@drawable/shape_common_btn_blue" />
+</selector>
