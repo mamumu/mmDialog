@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.mumu.dialog.MMAlertDialog;
+import com.mumu.dialog.MMPopupWindow;
+import com.mumu.dialog.utils.DensityUtils;
 import com.mumu.mmdialog.base.BaseActivity;
 
 import butterknife.BindView;
@@ -22,6 +24,7 @@ public class MainActivity extends BaseActivity {
     Button button2;
 
     private String webUrl = "https://www.jianshu.com/u/281e9668a5a6";
+    private MMPopupWindow mmPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +133,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick({R.id.button1, R.id.button2, R.id.button3, R.id.button4,
-            R.id.button5, R.id.button6, R.id.button7, R.id.button8})
+            R.id.button5, R.id.button6, R.id.button7, R.id.button8, R.id.button9})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.button1:
@@ -170,6 +173,19 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.button8:
                 showImageDialog();
+                break;
+            case R.id.button9:
+                Button button9=findViewById(R.id.button9);
+                if (mmPopupWindow == null) {
+                    mmPopupWindow = new MMPopupWindow();
+                }
+                mmPopupWindow.showDownPop(
+                        this,
+                        button9,
+                        "我是中国人",
+                        "我是中国人，我爱我的祖国，祝祖国繁荣昌盛",
+                        40,
+                        0);
                 break;
         }
     }

@@ -23,4 +23,11 @@
         <item name="android:windowEnterAnimation">@anim/push_left_in</item>
         <item name="android:windowExitAnimation">@anim/push_right_out</item>
     </style>
+
+    <style name="Animation"/>
+
+    <style name="AnimDown" parent="Animation">
+        <item name="android:windowEnterAnimation">@anim/push_scale_in</item>
+        <item name="android:windowExitAnimation">@anim/push_scale_out</item>
+    </style>
 </resources>
