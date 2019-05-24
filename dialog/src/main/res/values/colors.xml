@@ -3,5 +3,6 @@
     <color name="color_transparent">#00000000</color>
     <color name="color_red">#FE6072</color>
     <color name="color_blue">#1c86ee</color>
+    <color name="color_blue_rg">#0584E9</color>
     <color name="color_grey">#CFD3DE</color>
 </resources>

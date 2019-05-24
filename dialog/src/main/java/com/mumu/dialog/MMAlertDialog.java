@@ -3,8 +3,13 @@ package com.mumu.dialog;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -13,10 +18,17 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.mumu.dialog.adapter.PickAdapter;
 import com.mumu.dialog.utils.DensityUtils;
+
+import java.util.List;
 
 /**
  * @author : zlf
@@ -25,6 +37,7 @@ import com.mumu.dialog.utils.DensityUtils;
  * blog    : https://www.jianshu.com/u/281e9668a5a6
  */
 public class MMAlertDialog {
+    private static PickAdapter pickAdapter;
     /**
      * @param context        上下文
      * @param title          标题
@@ -244,6 +257,129 @@ public class MMAlertDialog {
 //        dialog.getWindow().setWindowAnimations(R.style.AnimMM);
         dialog.setContentView(view);
 
+        return dialog;
+    }
+
+    /**
+     * 展示选择器的dialog
+     * @param context
+     * @param title
+     * @param rb1
+     * @param rb2
+     * @param rb3
+     * @param list1
+     * @param list2
+     * @param list3
+     * @param btnText
+     * @param touchOutside
+     * @param cancleListener
+     * @param sureListener
+     * @param rvListener
+     * @param radioGroupListener
+     * @return
+     */
+    public synchronized static AlertDialog showDialogPick(Context context,
+                                                          String title,
+                                                          String rb1,
+                                                          String rb2,
+                                                          String rb3,
+                                                          final List list1,
+                                                          final List list2,
+                                                          final List list3,
+                                                          String btnText,
+                                                          boolean touchOutside,
+                                                          DialogInterface.OnClickListener cancleListener,
+                                                          DialogInterface.OnClickListener sureListener,
+                                                          DialogInterface.OnClickListener rvListener,
+                                                          DialogInterface.OnMultiChoiceClickListener radioGroupListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(touchOutside);
+        dialog.setCancelable(false);
+
+        // 是否包含标题，设置Title
+        if (TextUtils.isEmpty(title)) {
+            title = "请选择";
+        }
+        View view = View.inflate(context, R.layout.alert_dialog_pick, null);
+        //提示框title
+        TextView tvTitle = view.findViewById(R.id.tv_pick_title);
+        //关闭按钮
+        ImageView ivClose=view.findViewById(R.id.iv_pick_close);
+        //完成按钮
+        final Button btnFinish = view.findViewById(R.id.btn_finish);
+        //radioGroup
+        RadioGroup radioGroup=view.findViewById(R.id.rg_pick);
+        //radioButton
+        RadioButton radioButton1=view.findViewById(R.id.rb_first);
+        RadioButton radioButton2=view.findViewById(R.id.rb_second);
+        RadioButton radioButton3=view.findViewById(R.id.rb_third);
+        //recyclerView
+        final RecyclerView recyclerView=view.findViewById(R.id.rv_pick);
+
+        tvTitle.setText(title);
+        radioButton1.setText(rb1);
+        radioButton1.setChecked(true);
+        radioButton2.setText(rb2);
+        if(TextUtils.isEmpty(rb3)){
+            radioButton3.setVisibility(View.GONE);
+        }else {
+            radioButton3.setText(rb3);
+        }
+        btnFinish.setText(btnText);
+
+        final AlertDialog dialogFinal = dialog;
+        final DialogInterface.OnClickListener finalSureListener = sureListener;
+        final DialogInterface.OnClickListener finalCancleListener = cancleListener;
+        final DialogInterface.OnClickListener finalRvListener = rvListener;
+        final DialogInterface.OnMultiChoiceClickListener finalRgListener = radioGroupListener;
+        btnFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalSureListener.onClick(dialogFinal, DialogInterface.BUTTON_POSITIVE);
+            }
+        });
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalCancleListener.onClick(dialogFinal, DialogInterface.BUTTON_NEGATIVE);
+            }
+        });
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                finalRgListener.onClick(dialogFinal,checkedId,true);
+                if (checkedId == R.id.rb_first) {
+                    pickAdapter.setNewData(list1);
+                }else if(checkedId == R.id.rb_second){
+                    pickAdapter.setNewData(list2);
+                }else if(checkedId == R.id.rb_third){
+                    pickAdapter.setNewData(list3);
+                }
+                pickAdapter.notifyDataSetChanged();
+            }
+        });
+        GridLayoutManager manager = new GridLayoutManager(context, 3);
+        recyclerView.setLayoutManager(manager);
+        pickAdapter = new PickAdapter(list1);
+        recyclerView.setAdapter(pickAdapter);
+        recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.cb_item_pick) {
+                    finalRvListener.onClick(dialogFinal,position);
+                }
+            }
+        });
+
+        //设置背景透明,去四个角
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.show();
+        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
         return dialog;
     }
 }
