@@ -12,15 +12,18 @@ import java.util.List;
  */
 public class PickEntity implements Serializable {
 
+
     /**
-     * timestamp : 1558672851528
+     * timestamp : 1558772976207
      * resthead : {"errorCode":0,"message":""}
-     * restbody : {"higherLevel":[{"id":251,"name":"北沥村"}]}
+     * restbody : {"higher1Level":[{"id":251,"name":"北沥村"},{"id":251,"name":"北沥村"},{"id":251,"name":"北沥村"},{"id":251,"name":"北沥村"}],"higher2Level":[{"id":251,"name":"北沥村"},{"id":251,"name":"北沥村"}],"higher3Level":[{"id":251,"name":"北沥村"}]}
+     * extend : null
      */
 
     private long timestamp;
     private RestheadBean resthead;
     private RestbodyBean restbody;
+    private Object extend;
 
     public long getTimestamp() {
         return timestamp;
@@ -44,6 +47,14 @@ public class PickEntity implements Serializable {
 
     public void setRestbody(RestbodyBean restbody) {
         this.restbody = restbody;
+    }
+
+    public Object getExtend() {
+        return extend;
+    }
+
+    public void setExtend(Object extend) {
+        this.extend = extend;
     }
 
     public static class RestheadBean {
@@ -73,28 +84,35 @@ public class PickEntity implements Serializable {
     }
 
     public static class RestbodyBean {
-        public RestbodyBean(List<HigherLevelBean> higherLevel) {
-            this.higherLevel = higherLevel;
+        private List<Higher1LevelBean> higher1Level;
+        private List<Higher2LevelBean> higher2Level;
+        private List<Higher3LevelBean> higher3Level;
+
+        public List<Higher1LevelBean> getHigher1Level() {
+            return higher1Level;
         }
 
-        private List<HigherLevelBean> higherLevel;
-
-        public List<HigherLevelBean> getHigherLevel() {
-            return higherLevel;
+        public void setHigher1Level(List<Higher1LevelBean> higher1Level) {
+            this.higher1Level = higher1Level;
         }
 
-        public void setHigherLevel(List<HigherLevelBean> higherLevel) {
-            this.higherLevel = higherLevel;
+        public List<Higher2LevelBean> getHigher2Level() {
+            return higher2Level;
         }
 
-        public static class HigherLevelBean {
+        public void setHigher2Level(List<Higher2LevelBean> higher2Level) {
+            this.higher2Level = higher2Level;
+        }
 
-            public HigherLevelBean(int id, String name) {
-                this.id = id;
-                this.name = name;
-                this.isChecked = false;
-            }
+        public List<Higher3LevelBean> getHigher3Level() {
+            return higher3Level;
+        }
 
+        public void setHigher3Level(List<Higher3LevelBean> higher3Level) {
+            this.higher3Level = higher3Level;
+        }
+
+        public static class Higher1LevelBean {
             /**
              * id : 251
              * name : 北沥村
@@ -103,6 +121,94 @@ public class PickEntity implements Serializable {
             private int id;
             private String name;
             private boolean isChecked = false;
+
+            public Higher1LevelBean(int id, String name) {
+                this.id = id;
+                this.name = name;
+                this.isChecked = false;
+            }
+
+            public boolean isChecked() {
+                return isChecked;
+            }
+
+            public void setChecked(boolean checked) {
+                isChecked = checked;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+        }
+
+        public static class Higher2LevelBean {
+            /**
+             * id : 251
+             * name : 北沥村
+             */
+
+            private int id;
+            private String name;
+            private boolean isChecked = false;
+
+            public Higher2LevelBean(int id, String name) {
+                this.id = id;
+                this.name = name;
+                this.isChecked = false;
+            }
+
+            public boolean isChecked() {
+                return isChecked;
+            }
+
+            public void setChecked(boolean checked) {
+                isChecked = checked;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+        }
+
+        public static class Higher3LevelBean {
+            /**
+             * id : 251
+             * name : 北沥村
+             */
+
+            private int id;
+            private String name;
+            private boolean isChecked = false;
+
+            public Higher3LevelBean(int id, String name) {
+                this.id = id;
+                this.name = name;
+                this.isChecked = false;
+            }
 
             public boolean isChecked() {
                 return isChecked;

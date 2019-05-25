@@ -7,9 +7,9 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:background="#ffffff"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:background="#ffffff">
 
         <TextView
             android:id="@+id/tv_pick_title"
@@ -57,10 +57,24 @@
     </RadioGroup>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_pick"
+        android:id="@+id/rv_pick1"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:background="#f6f6f6" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_pick2"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="#f6f6f6"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_pick3"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="#f6f6f6"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_finish"

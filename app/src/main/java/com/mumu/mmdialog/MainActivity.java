@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.mumu.dialog.MMAlertDialog;
 import com.mumu.dialog.MMPopupWindow;
+import com.mumu.dialog.PickBaseEntity;
 import com.mumu.dialog.PickEntity;
 import com.mumu.mmdialog.base.BaseActivity;
 
@@ -29,11 +30,10 @@ public class MainActivity extends BaseActivity {
 
     private String webUrl = "https://www.jianshu.com/u/281e9668a5a6";
     private MMPopupWindow mmPopupWindow;
-    private List<PickEntity.RestbodyBean.HigherLevelBean> list1 = new ArrayList<>();
-    private List<PickEntity.RestbodyBean.HigherLevelBean> list2 = new ArrayList<>();
-    private List<PickEntity.RestbodyBean.HigherLevelBean> list3 = new ArrayList<>();
-    private List<PickEntity.RestbodyBean.HigherLevelBean> list = new ArrayList<>();
-    private List<PickEntity.RestbodyBean.HigherLevelBean> arrayList = new ArrayList<>();
+    private List<PickEntity.RestbodyBean.Higher1LevelBean> list1 = new ArrayList<>();
+    private List<PickEntity.RestbodyBean.Higher2LevelBean> list2 = new ArrayList<>();
+    private List<PickEntity.RestbodyBean.Higher3LevelBean> list3 = new ArrayList<>();
+    private List arrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +44,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
-        list1.add(new PickEntity.RestbodyBean.HigherLevelBean(111, "aaaaaa"));
-        list1.add(new PickEntity.RestbodyBean.HigherLevelBean(111, "22222"));
-        list1.add(new PickEntity.RestbodyBean.HigherLevelBean(111, "333333"));
-        list1.add(new PickEntity.RestbodyBean.HigherLevelBean(111, "44444"));
-        list2.add(new PickEntity.RestbodyBean.HigherLevelBean(111, "bbbbb"));
-        list3.add(new PickEntity.RestbodyBean.HigherLevelBean(111, "vvvvvvvvv"));
+        list1.add(new PickEntity.RestbodyBean.Higher1LevelBean(111, "aaaaaa"));
+        list1.add(new PickEntity.RestbodyBean.Higher1LevelBean(111, "22222"));
+        list1.add(new PickEntity.RestbodyBean.Higher1LevelBean(111, "333333"));
+        list1.add(new PickEntity.RestbodyBean.Higher1LevelBean(111, "44444"));
+        list2.add(new PickEntity.RestbodyBean.Higher2LevelBean(111, "bbbbb"));
+        list3.add(new PickEntity.RestbodyBean.Higher3LevelBean(111, "vvvvvvvvv"));
 
     }
 
@@ -149,8 +149,19 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showPickDialog() {
-        list.addAll(list1);
-        MMAlertDialog.showDialogPick(this, "选择", "aa", "bb", "cc", list1, list2, list3, "完成", true,
+        for(int i=0;i<list1.size();i++){
+            list1.get(i).setChecked(false);
+        }
+        for(int i=0;i<list2.size();i++){
+            list2.get(i).setChecked(false);
+        }
+        for(int i=0;i<list3.size();i++){
+            list3.get(i).setChecked(false);
+        }
+        MMAlertDialog.showDialogPick(this,
+                "选择", "aa", "bb", "cc",
+                list1, list2, list3,
+                "完成", true,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -163,22 +174,22 @@ public class MainActivity extends BaseActivity {
                         arrayList = new ArrayList();
                         for (int i = 0; i < list1.size(); i++) {
                             if (list1.get(i).isChecked()) {
-                                arrayList.add(list1.get(i));
+                                arrayList.add(list1.get(i).getName());
                             }
                         }
                         for (int i = 0; i < list2.size(); i++) {
                             if (list2.get(i).isChecked()) {
-                                arrayList.add(list2.get(i));
+                                arrayList.add(list2.get(i).getName());
                             }
                         }
                         for (int i = 0; i < list3.size(); i++) {
                             if (list3.get(i).isChecked()) {
-                                arrayList.add(list3.get(i));
+                                arrayList.add(list3.get(i).getName());
                             }
                         }
                         String aaa = "";
                         for (int i = 0; i < arrayList.size(); i++) {
-                            String bbb = arrayList.get(i).getName().toString();
+                            String bbb = arrayList.get(i).toString();
                             aaa += " "+bbb;
                         }
                         Log.d("mmm", aaa);
@@ -188,26 +199,45 @@ public class MainActivity extends BaseActivity {
                 }, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (list.get(which).isChecked()) {
-                            list.get(which).setChecked(false);
+                        if (list1.get(which).isChecked()) {
+                            list1.get(which).setChecked(false);
                         } else {
-                            list.get(which).setChecked(true);
+                            list1.get(which).setChecked(true);
                         }
-                        Toast.makeText(MainActivity.this, list.get(which).getId() + list.get(which).getName(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, list1.get(which).getId() + list1.get(which).getName(), Toast.LENGTH_SHORT).show();
                     }
-                }, new DialogInterface.OnMultiChoiceClickListener() {
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (list2.get(which).isChecked()) {
+                            list2.get(which).setChecked(false);
+                        } else {
+                            list2.get(which).setChecked(true);
+                        }
+                        Toast.makeText(MainActivity.this, list2.get(which).getId() + list2.get(which).getName(), Toast.LENGTH_SHORT).show();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (list3.get(which).isChecked()) {
+                            list3.get(which).setChecked(false);
+                        } else {
+                            list3.get(which).setChecked(true);
+                        }
+                        Toast.makeText(MainActivity.this, list3.get(which).getId() + list3.get(which).getName(), Toast.LENGTH_SHORT).show();
+                    }
+                },new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int checkedId, boolean isChecked) {
-                        if (checkedId == com.mumu.dialog.R.id.rb_first) {
-                            list.clear();
-                            list.addAll(list1);
-                        } else if (checkedId == com.mumu.dialog.R.id.rb_second) {
-                            list.clear();
-                            list.addAll(list2);
-                        } else if (checkedId == com.mumu.dialog.R.id.rb_third) {
-                            list.clear();
-                            list.addAll(list3);
-                        }
+//                        if (checkedId == com.mumu.dialog.R.id.rb_first) {
+//
+//                        } else if (checkedId == com.mumu.dialog.R.id.rb_second) {
+//                            list.clear();
+//                            list.addAll(list2);
+//                        } else if (checkedId == com.mumu.dialog.R.id.rb_third) {
+//                            list.clear();
+//                            list.addAll(list3);
+//                        }
                         Toast.makeText(MainActivity.this, "nnn", Toast.LENGTH_SHORT).show();
                     }
                 });

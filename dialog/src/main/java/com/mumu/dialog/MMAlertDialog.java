@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -25,7 +24,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.mumu.dialog.adapter.PickAdapter;
+import com.mumu.dialog.adapter.Pick1Adapter;
+import com.mumu.dialog.adapter.Pick2Adapter;
+import com.mumu.dialog.adapter.Pick3Adapter;
 import com.mumu.dialog.utils.DensityUtils;
 
 import java.util.List;
@@ -37,7 +38,9 @@ import java.util.List;
  * blog    : https://www.jianshu.com/u/281e9668a5a6
  */
 public class MMAlertDialog {
-    private static PickAdapter pickAdapter;
+    private static Pick1Adapter pick1Adapter;
+    private static Pick2Adapter pick2Adapter;
+    private static Pick3Adapter pick3Adapter;
     /**
      * @param context        上下文
      * @param title          标题
@@ -274,7 +277,9 @@ public class MMAlertDialog {
      * @param touchOutside
      * @param cancleListener
      * @param sureListener
-     * @param rvListener
+     * @param rv1Listener
+     * @param rv2Listener
+     * @param rv3Listener
      * @param radioGroupListener
      * @return
      */
@@ -290,7 +295,9 @@ public class MMAlertDialog {
                                                           boolean touchOutside,
                                                           DialogInterface.OnClickListener cancleListener,
                                                           DialogInterface.OnClickListener sureListener,
-                                                          DialogInterface.OnClickListener rvListener,
+                                                          DialogInterface.OnClickListener rv1Listener,
+                                                          DialogInterface.OnClickListener rv2Listener,
+                                                          DialogInterface.OnClickListener rv3Listener,
                                                           DialogInterface.OnMultiChoiceClickListener radioGroupListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         AlertDialog dialog = builder.create();
@@ -315,7 +322,9 @@ public class MMAlertDialog {
         RadioButton radioButton2=view.findViewById(R.id.rb_second);
         RadioButton radioButton3=view.findViewById(R.id.rb_third);
         //recyclerView
-        final RecyclerView recyclerView=view.findViewById(R.id.rv_pick);
+        final RecyclerView recyclerView1=view.findViewById(R.id.rv_pick1);
+        final RecyclerView recyclerView2=view.findViewById(R.id.rv_pick2);
+        final RecyclerView recyclerView3=view.findViewById(R.id.rv_pick3);
 
         tvTitle.setText(title);
         radioButton1.setText(rb1);
@@ -331,7 +340,9 @@ public class MMAlertDialog {
         final AlertDialog dialogFinal = dialog;
         final DialogInterface.OnClickListener finalSureListener = sureListener;
         final DialogInterface.OnClickListener finalCancleListener = cancleListener;
-        final DialogInterface.OnClickListener finalRvListener = rvListener;
+        final DialogInterface.OnClickListener finalRv1Listener = rv1Listener;
+        final DialogInterface.OnClickListener finalRv2Listener = rv2Listener;
+        final DialogInterface.OnClickListener finalRv3Listener = rv3Listener;
         final DialogInterface.OnMultiChoiceClickListener finalRgListener = radioGroupListener;
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,30 +357,67 @@ public class MMAlertDialog {
             }
         });
 
+        GridLayoutManager manager1 = new GridLayoutManager(context, 3);
+        GridLayoutManager manager2 = new GridLayoutManager(context, 3);
+        GridLayoutManager manager3 = new GridLayoutManager(context, 3);
+        recyclerView1.setLayoutManager(manager1);
+        pick1Adapter = new Pick1Adapter(list1);
+        recyclerView1.setAdapter(pick1Adapter);
+        recyclerView1.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.cb_item_pick) {
+                    finalRv1Listener.onClick(dialogFinal,position);
+                }
+            }
+        });
+        recyclerView2.setLayoutManager(manager2);
+        pick2Adapter = new Pick2Adapter(list2);
+        recyclerView2.setAdapter(pick2Adapter);
+        recyclerView2.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.cb_item_pick) {
+                    finalRv2Listener.onClick(dialogFinal,position);
+                }
+            }
+        });
+        recyclerView3.setLayoutManager(manager3);
+        pick3Adapter = new Pick3Adapter(list3);
+        recyclerView3.setAdapter(pick3Adapter);
+        recyclerView3.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.cb_item_pick) {
+                    finalRv3Listener.onClick(dialogFinal,position);
+                }
+            }
+        });
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 finalRgListener.onClick(dialogFinal,checkedId,true);
                 if (checkedId == R.id.rb_first) {
-                    pickAdapter.setNewData(list1);
+                    recyclerView1.setVisibility(View.VISIBLE);
+                    recyclerView2.setVisibility(View.GONE);
+                    recyclerView3.setVisibility(View.GONE);
+                    pick1Adapter.setNewData(list1);
+                    pick1Adapter.notifyDataSetChanged();
                 }else if(checkedId == R.id.rb_second){
-                    pickAdapter.setNewData(list2);
+                    recyclerView1.setVisibility(View.GONE);
+                    recyclerView2.setVisibility(View.VISIBLE);
+                    recyclerView3.setVisibility(View.GONE);
+                    pick2Adapter.setNewData(list2);
+                    pick2Adapter.notifyDataSetChanged();
                 }else if(checkedId == R.id.rb_third){
-                    pickAdapter.setNewData(list3);
+                    recyclerView1.setVisibility(View.GONE);
+                    recyclerView2.setVisibility(View.GONE);
+                    recyclerView3.setVisibility(View.VISIBLE);
+                    pick3Adapter.setNewData(list3);
+                    pick3Adapter.notifyDataSetChanged();
                 }
-                pickAdapter.notifyDataSetChanged();
-            }
-        });
-        GridLayoutManager manager = new GridLayoutManager(context, 3);
-        recyclerView.setLayoutManager(manager);
-        pickAdapter = new PickAdapter(list1);
-        recyclerView.setAdapter(pickAdapter);
-        recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
-            @Override
-            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.cb_item_pick) {
-                    finalRvListener.onClick(dialogFinal,position);
-                }
+
             }
         });
 
