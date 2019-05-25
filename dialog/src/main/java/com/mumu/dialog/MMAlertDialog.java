@@ -286,7 +286,7 @@ public class MMAlertDialog {
      * @param radioGroupListener radioGroup的按钮监听
      * @return AlertDialog
      */
-    public synchronized static AlertDialog showDialogPick(Context context,
+    public synchronized static AlertDialog showDialogPickThree(Context context,
                                                           String title,
                                                           String rb1,
                                                           String rb2,
@@ -314,7 +314,7 @@ public class MMAlertDialog {
         if (TextUtils.isEmpty(title)) {
             title = "请选择";
         }
-        View view = View.inflate(context, R.layout.alert_dialog_pick, null);
+        View view = View.inflate(context, R.layout.alert_dialog_pick_three, null);
         //提示框title
         TextView tvTitle = view.findViewById(R.id.tv_pick_title);
         //关闭按钮
@@ -422,6 +422,144 @@ public class MMAlertDialog {
                     recyclerView3.setVisibility(View.VISIBLE);
                     pick3Adapter.setNewData(list3);
                     pick3Adapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
+        //设置背景透明,去四个角
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.show();
+        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        return dialog;
+    }
+
+    /**
+     * 展示选择器的dialog
+     * @param context 上下文
+     * @param title 标题
+     * @param rb1 radiobutton1的文字
+     * @param rb2 radiobutton2的文字
+     * @param managerNum1 recyclerView1一行展示的个数
+     * @param managerNum2 recyclerView2一行展示的个数
+     * @param list1 recyclerView1的列表数据
+     * @param list2 recyclerView2的列表数据
+     * @param btnText 按钮文字
+     * @param touchOutside 按外部是否可以取消弹窗
+     * @param cancleListener 取消按钮监听
+     * @param sureListener 完成按钮监听
+     * @param rv1Listener recyclerView1的按钮监听
+     * @param rv2Listener recyclerView2的按钮监听
+     * @param radioGroupListener radioGroup的按钮监听
+     * @return AlertDialog
+     */
+    public synchronized static AlertDialog showDialogPickTwo(Context context,
+                                                               String title,
+                                                               String rb1,
+                                                               String rb2,
+                                                               int managerNum1,
+                                                               int managerNum2,
+                                                               final List list1,
+                                                               final List list2,
+                                                               String btnText,
+                                                               boolean touchOutside,
+                                                               DialogInterface.OnClickListener cancleListener,
+                                                               DialogInterface.OnClickListener sureListener,
+                                                               DialogInterface.OnClickListener rv1Listener,
+                                                               DialogInterface.OnClickListener rv2Listener,
+                                                               DialogInterface.OnMultiChoiceClickListener radioGroupListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(touchOutside);
+        dialog.setCancelable(false);
+
+        // 是否包含标题，设置Title
+        if (TextUtils.isEmpty(title)) {
+            title = "请选择";
+        }
+        View view = View.inflate(context, R.layout.alert_dialog_pick_two, null);
+        //提示框title
+        TextView tvTitle = view.findViewById(R.id.tv_pick_title);
+        //关闭按钮
+        ImageView ivClose=view.findViewById(R.id.iv_pick_close);
+        //完成按钮
+        final Button btnFinish = view.findViewById(R.id.btn_finish);
+        //radioGroup
+        RadioGroup radioGroup=view.findViewById(R.id.rg_pick);
+        //radioButton
+        RadioButton radioButton1=view.findViewById(R.id.rb_first);
+        RadioButton radioButton2=view.findViewById(R.id.rb_second);
+        //recyclerView
+        final RecyclerView recyclerView1=view.findViewById(R.id.rv_pick1);
+        final RecyclerView recyclerView2=view.findViewById(R.id.rv_pick2);
+
+        tvTitle.setText(title);
+        radioButton1.setText(rb1);
+        radioButton1.setChecked(true);
+        radioButton2.setText(rb2);
+        btnFinish.setText(btnText);
+
+        final AlertDialog dialogFinal = dialog;
+        final DialogInterface.OnClickListener finalSureListener = sureListener;
+        final DialogInterface.OnClickListener finalCancleListener = cancleListener;
+        final DialogInterface.OnClickListener finalRv1Listener = rv1Listener;
+        final DialogInterface.OnClickListener finalRv2Listener = rv2Listener;
+        final DialogInterface.OnMultiChoiceClickListener finalRgListener = radioGroupListener;
+        btnFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalSureListener.onClick(dialogFinal, DialogInterface.BUTTON_POSITIVE);
+            }
+        });
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalCancleListener.onClick(dialogFinal, DialogInterface.BUTTON_NEGATIVE);
+            }
+        });
+
+        GridLayoutManager manager1 = new GridLayoutManager(context, managerNum1);
+        GridLayoutManager manager2 = new GridLayoutManager(context, managerNum2);
+        recyclerView1.setLayoutManager(manager1);
+        pick1Adapter = new Pick1Adapter(list1);
+        recyclerView1.setAdapter(pick1Adapter);
+        recyclerView1.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.cb_item_pick) {
+                    finalRv1Listener.onClick(dialogFinal,position);
+                }
+            }
+        });
+        recyclerView2.setLayoutManager(manager2);
+        pick2Adapter = new Pick2Adapter(list2);
+        recyclerView2.setAdapter(pick2Adapter);
+        recyclerView2.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.cb_item_pick) {
+                    finalRv2Listener.onClick(dialogFinal,position);
+                }
+            }
+        });
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                finalRgListener.onClick(dialogFinal,checkedId,true);
+                if (checkedId == R.id.rb_first) {
+                    recyclerView1.setVisibility(View.VISIBLE);
+                    recyclerView2.setVisibility(View.GONE);
+                    pick1Adapter.setNewData(list1);
+                    pick1Adapter.notifyDataSetChanged();
+                }else if(checkedId == R.id.rb_second){
+                    recyclerView1.setVisibility(View.GONE);
+                    recyclerView2.setVisibility(View.VISIBLE);
+                    pick2Adapter.setNewData(list2);
+                    pick2Adapter.notifyDataSetChanged();
                 }
 
             }
