@@ -149,17 +149,19 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showPickDialog() {
-        for(int i=0;i<list1.size();i++){
+        for (int i = 0; i < list1.size(); i++) {
             list1.get(i).setChecked(false);
         }
-        for(int i=0;i<list2.size();i++){
+        for (int i = 0; i < list2.size(); i++) {
             list2.get(i).setChecked(false);
         }
-        for(int i=0;i<list3.size();i++){
+        for (int i = 0; i < list3.size(); i++) {
             list3.get(i).setChecked(false);
         }
         MMAlertDialog.showDialogPick(this,
-                "选择", "aa", "bb", "cc",
+                "选择",
+                "aa", "bb", "cc",
+                2, 1, 3,
                 list1, list2, list3,
                 "完成", true,
                 new DialogInterface.OnClickListener() {
@@ -190,7 +192,7 @@ public class MainActivity extends BaseActivity {
                         String aaa = "";
                         for (int i = 0; i < arrayList.size(); i++) {
                             String bbb = arrayList.get(i).toString();
-                            aaa += " "+bbb;
+                            aaa += " " + bbb;
                         }
                         Log.d("mmm", aaa);
                         Toast.makeText(MainActivity.this, aaa, Toast.LENGTH_SHORT).show();
@@ -226,7 +228,7 @@ public class MainActivity extends BaseActivity {
                         }
                         Toast.makeText(MainActivity.this, list3.get(which).getId() + list3.get(which).getName(), Toast.LENGTH_SHORT).show();
                     }
-                },new DialogInterface.OnMultiChoiceClickListener() {
+                }, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int checkedId, boolean isChecked) {
 //                        if (checkedId == com.mumu.dialog.R.id.rb_first) {
@@ -244,7 +246,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick({R.id.button1, R.id.button2, R.id.button3, R.id.button4,
-            R.id.button5, R.id.button6, R.id.button7, R.id.button8, R.id.button9,R.id.button10})
+            R.id.button5, R.id.button6, R.id.button7, R.id.button8, R.id.button9, R.id.button10})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.button1:

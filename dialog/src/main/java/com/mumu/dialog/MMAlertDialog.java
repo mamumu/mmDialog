@@ -265,29 +265,35 @@ public class MMAlertDialog {
 
     /**
      * 展示选择器的dialog
-     * @param context
-     * @param title
-     * @param rb1
-     * @param rb2
-     * @param rb3
-     * @param list1
-     * @param list2
-     * @param list3
-     * @param btnText
-     * @param touchOutside
-     * @param cancleListener
-     * @param sureListener
-     * @param rv1Listener
-     * @param rv2Listener
-     * @param rv3Listener
-     * @param radioGroupListener
-     * @return
+     * @param context 上下文
+     * @param title 标题
+     * @param rb1 radiobutton1的文字
+     * @param rb2 radiobutton2的文字
+     * @param rb3 radiobutton3的文字
+     * @param managerNum1 recyclerView1一行展示的个数
+     * @param managerNum2 recyclerView2一行展示的个数
+     * @param managerNum3 recyclerView3一行展示的个数
+     * @param list1 recyclerView1的列表数据
+     * @param list2 recyclerView2的列表数据
+     * @param list3 recyclerView3的列表数据
+     * @param btnText 按钮文字
+     * @param touchOutside 按外部是否可以取消弹窗
+     * @param cancleListener 取消按钮监听
+     * @param sureListener 完成按钮监听
+     * @param rv1Listener recyclerView1的按钮监听
+     * @param rv2Listener recyclerView2的按钮监听
+     * @param rv3Listener recyclerView3的按钮监听
+     * @param radioGroupListener radioGroup的按钮监听
+     * @return AlertDialog
      */
     public synchronized static AlertDialog showDialogPick(Context context,
                                                           String title,
                                                           String rb1,
                                                           String rb2,
                                                           String rb3,
+                                                          int managerNum1,
+                                                          int managerNum2,
+                                                          int managerNum3,
                                                           final List list1,
                                                           final List list2,
                                                           final List list3,
@@ -357,9 +363,9 @@ public class MMAlertDialog {
             }
         });
 
-        GridLayoutManager manager1 = new GridLayoutManager(context, 3);
-        GridLayoutManager manager2 = new GridLayoutManager(context, 3);
-        GridLayoutManager manager3 = new GridLayoutManager(context, 3);
+        GridLayoutManager manager1 = new GridLayoutManager(context, managerNum1);
+        GridLayoutManager manager2 = new GridLayoutManager(context, managerNum2);
+        GridLayoutManager manager3 = new GridLayoutManager(context, managerNum3);
         recyclerView1.setLayoutManager(manager1);
         pick1Adapter = new Pick1Adapter(list1);
         recyclerView1.setAdapter(pick1Adapter);
