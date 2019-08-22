@@ -127,4 +127,15 @@
         android:textAllCaps="false"
         tools:layout_editor_absoluteX="166dp"
         tools:layout_editor_absoluteY="177dp" />
+
+    <Button
+        android:id="@+id/button12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:text="跳转到SecondActivity"
+        android:textAllCaps="false"
+        tools:layout_editor_absoluteX="166dp"
+        tools:layout_editor_absoluteY="177dp" />
 </LinearLayout>

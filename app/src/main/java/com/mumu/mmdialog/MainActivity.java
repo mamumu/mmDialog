@@ -1,6 +1,7 @@
 package com.mumu.mmdialog;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -129,8 +130,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showImageDialog() {
-        MMAlertDialog.showDialogImage(this,
-                "http://img0.imgtn.bdimg.com/it/u=3295048120,2386838883&fm=214&gp=0.jpg",
+        MMAlertDialog.showDialogImage(MainActivity.this,
+                "https://wx1.sinaimg.cn/mw690/007ukfVdly1g5s67ygzs4j32j03si7wi.jpg",
                 false,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -325,7 +326,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick({R.id.button1, R.id.button2, R.id.button3, R.id.button4,
-            R.id.button5, R.id.button6, R.id.button7, R.id.button8, R.id.button9, R.id.button10, R.id.button11})
+            R.id.button5, R.id.button6, R.id.button7, R.id.button8, R.id.button9, R.id.button10, R.id.button11, R.id.button12})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.button1:
@@ -384,6 +385,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.button11:
                 showPickDialogThree();
+                break;
+            case R.id.button12:
+                startActivity(new Intent(MainActivity.this, SecondActivity.class));
                 break;
         }
     }

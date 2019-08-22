@@ -1,10 +1,11 @@
 package com.mumu.dialog.adapter;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.mumu.dialog.PickBaseEntity;
 import com.mumu.dialog.PickEntity;
 import com.mumu.dialog.R;
 
@@ -18,13 +19,12 @@ import java.util.List;
  * desc    :
  */
 public class Pick1Adapter extends BaseQuickAdapter<PickEntity.RestbodyBean.Higher1LevelBean, BaseViewHolder> {
-
-    public Pick1Adapter(@Nullable List data) {
+    public Pick1Adapter(@Nullable List<PickEntity.RestbodyBean.Higher1LevelBean> data) {
         super(R.layout.item_pick, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, PickEntity.RestbodyBean.Higher1LevelBean data) {
+    protected void convert(@NonNull BaseViewHolder helper, PickEntity.RestbodyBean.Higher1LevelBean data) {
         //将每一个需要赋值的id和对应的数据绑定
         helper.setText(R.id.cb_item_pick, data.getName());
         if(data.isChecked()){

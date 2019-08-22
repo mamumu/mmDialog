@@ -51,13 +51,13 @@
             android:text="第二个" />
     </RadioGroup>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_pick1"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:background="#f6f6f6" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_pick2"
         android:layout_width="match_parent"
         android:layout_height="220dp"
